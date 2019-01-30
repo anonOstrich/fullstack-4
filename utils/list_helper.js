@@ -1,4 +1,4 @@
-const dummy = (blogs) => 'Rukola'; 
+const dummy = (blogs) => 1; 
 
 module.exports = {
     dummy,
