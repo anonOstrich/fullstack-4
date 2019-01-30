@@ -1,0 +1,31 @@
+{
+  "name": "fullstack-4",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1", 
+    "watch": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anonOstrich/fullstack-4.git"
+  },
+  "author": "Jesper Kuutti",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/anonOstrich/fullstack-4/issues"
+  },
+  "homepage": "https://github.com/anonOstrich/fullstack-4#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "http": "0.0.0",
+    "mongoose": "^5.4.7"
+  },
+  "devDependencies": {
+    "dotenv": "^6.2.0",
+    "nodemon": "^1.18.9"
+  }
+}
