@@ -59,19 +59,42 @@ const blogs = [
   ]
 
 describe('total likes', () => {
-    totalLikes = listHelper.totalLikes;
+    totalLikes = listHelper.totalLikes
 
     test('of empty list is zero', () => {
         expect(totalLikes([])).toBe(0)
     })
 
     test('when list has only one blog equals the likes of that', () => {
-        oneNoteList = [blogs[0]]
-        expect(totalLikes(oneNoteList)).toBe(7)
+        oneBlogList = [blogs[0]]
+        expect(totalLikes(oneBlogList)).toBe(7)
     })
 
     test('of a bigger list is calculated right', () => {
         expect(totalLikes(blogs)).toBe(36)
     })
+
+})
+
+describe('favorite blog', () => {
+    favoriteBlog = listHelper.favoriteBlog
+
+    test('when list has only one blog is that blog', () => {
+        oneBlogList = [blogs[0]]
+        expect(favoriteBlog(oneBlogList)).toEqual({
+            title: "React patterns",
+            author: "Michael Chan",
+            likes: 7
+        })
+    })
+
+    test('of a bigger list is correct', () => {
+        expect(favoriteBlog(blogs)).toEqual({
+            title: "Canonical string reduction",
+            author: "Edsger W. Dijkstra",
+            likes: 12
+        })
+    })
+
 
 })
