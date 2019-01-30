@@ -95,6 +95,8 @@ describe('favorite blog', () => {
             likes: 12
         })
     })
+})
+
 
 describe('most blogs', () => {
     const mostBlogs = listHelper.mostBlogs
@@ -113,8 +115,23 @@ describe('most blogs', () => {
             blogs: 3
         })
     })
-
 })
 
+describe('most likes', () => {
+    const mostLikes = listHelper.mostLikes
 
+    test('returns the only author in a list of one blog', () => {
+        const singleList = [blogs[0]]
+        expect(mostLikes(singleList)).toEqual({
+            author: "Michael Chan", 
+            likes: 7
+        })
+    })
+
+    test('returns the correct information with a list of multiple blogs', () => {
+        expect(mostLikes(blogs)).toEqual({
+            author: "Edsger W. Dijkstra", 
+            likes: 17
+        })
+    })
 })

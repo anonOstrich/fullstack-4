@@ -34,9 +34,25 @@ const mostBlogs = (blogs) => {
     
 }
 
+const mostLikes = (blogs) => {
+    const likeReducer = (authorInfo, blog) => {
+        const author = blog.author
+        let info = authorInfo.find(i => i.author === author)
+        if(!info){
+            info = {author: author, likes: 0}
+            authorInfo.push(info)
+        }
+        info.likes += blog.likes
+        return authorInfo
+    }
+
+    return blogs.reduce(likeReducer, []).sort((i1, i2) => i2.likes - i1.likes)[0]
+}
+
 module.exports = {
     dummy,
     totalLikes,
     favoriteBlog, 
-    mostBlogs
+    mostBlogs, 
+    mostLikes
 }
