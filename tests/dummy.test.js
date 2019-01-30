@@ -66,7 +66,7 @@ describe('total likes', () => {
     })
 
     test('when list has only one blog equals the likes of that', () => {
-        oneBlogList = [blogs[0]]
+        const oneBlogList = [blogs[0]]
         expect(totalLikes(oneBlogList)).toBe(7)
     })
 
@@ -80,7 +80,7 @@ describe('favorite blog', () => {
     favoriteBlog = listHelper.favoriteBlog
 
     test('when list has only one blog is that blog', () => {
-        oneBlogList = [blogs[0]]
+        const oneBlogList = [blogs[0]]
         expect(favoriteBlog(oneBlogList)).toEqual({
             title: "React patterns",
             author: "Michael Chan",
@@ -95,6 +95,26 @@ describe('favorite blog', () => {
             likes: 12
         })
     })
+
+describe('most blogs', () => {
+    const mostBlogs = listHelper.mostBlogs
+
+    test('has written the only author when there is only one blog in the list', () => {
+        const oneBlogList = [blogs[0]]
+        expect(mostBlogs(oneBlogList)).toEqual({
+            author: "Michael Chan", 
+            blogs: 1
+        })
+    })
+
+    test('returns the correct number and author when list contains multiple blogs', () => {
+        expect(mostBlogs(blogs)).toEqual({
+            author: "Robert C. Martin", 
+            blogs: 3
+        })
+    })
+
+})
 
 
 })
