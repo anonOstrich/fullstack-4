@@ -26,6 +26,12 @@ test('all blogs are retrieved', async () => {
 })
 
 
+test('blogs have property called "id"', async () => {
+    const response = await api.get('/api/blogs')
+    const blog = response.body[0]
+    expect(blog.id).toBeDefined()
+})
+
 
 
 afterAll(() => {
