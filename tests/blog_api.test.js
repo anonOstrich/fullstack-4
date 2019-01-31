@@ -53,6 +53,19 @@ test('new blog can be added with post', async () => {
 
 })
 
+test('new blog has number of likes 0 by default', async () => {
+    const blog = {
+        title: 'Blog of blogs', 
+        author: 'master of masters',
+        url: 'mystery.xxx'
+    }
+
+    const result = await api.post('/api/blogs')
+    .send(blog).expect(201)
+
+    expect(result.body.likes).toBe(0)
+})
+
 
 
 afterAll(() => {
