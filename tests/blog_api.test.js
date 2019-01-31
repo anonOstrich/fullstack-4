@@ -32,6 +32,27 @@ test('blogs have property called "id"', async () => {
     expect(blog.id).toBeDefined()
 })
 
+test('new blog can be added with post', async () => {
+   const newBlog = {
+       title: "nouvelle blog",
+       author: "Pascal Delacroix",
+       url: "uusioblogio.fi",
+       likes: 1888
+   }
+
+   await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+
+    const blogs = await helper.blogsInDB()
+
+    expect(blogs.length).toBe(helper.initialBlogs.length + 1)
+
+    expect(blogs.map(b => b.title)).toContain("nouvelle blog")
+
+})
+
 
 
 afterAll(() => {

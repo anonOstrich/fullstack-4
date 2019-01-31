@@ -15,16 +15,16 @@ const initialBlogs = [
     }
 ]
 
-const nonExistingId = (async () => {
+const nonExistingId = async () => {
     const blog = new Blog({"author": "nobody"})
     await blog.save()
     await blog.remove()
     return blog._id.toString()
-})()
+}
 
-const blogsInDB = (async () => {
+const blogsInDB = async () => {
     return await Blog.find({})
-})()
+}
 
 
 module.exports = {
