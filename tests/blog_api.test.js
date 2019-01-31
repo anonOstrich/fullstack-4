@@ -67,6 +67,17 @@ test('new blog has number of likes 0 by default', async () => {
 })
 
 
+test('blog without title or url cannot be added', async () => {
+    const failBlog = {
+        author: 'Pseudo Nym', 
+        likes: 100
+    }
+
+    await api.post('/api/blogs')
+    .send(failBlog).expect(400)
+})
+
+
 
 afterAll(() => {
     mongoose.connection.close()
