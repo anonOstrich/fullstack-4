@@ -78,7 +78,20 @@ test('blog without title or url cannot be added', async () => {
 })
 
 
+test('blog can be deleted with valid id', async () => {
+    
+    let delId= await helper.blogsInDB()[0].id
+    await api
+        .delete(`/api/blogs/${delId}`)
+        .expect(204)
 
-afterAll(() => {
+    const blogs = await helper.blogsInDB()
+    expect(blogs.length).toBe(blogs.initialBlogs.length - 1)
+})
+
+
+
+afterAll(async () => {
+    await Blog.remove({})
     mongoose.connection.close()
 })
