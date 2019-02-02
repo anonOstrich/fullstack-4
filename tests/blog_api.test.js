@@ -2,10 +2,14 @@ const mongoose = require('mongoose')
 const app = require('../app')
 const supertest = require('supertest')
 const Blog = require('../models/blog')
+const User = require('../models/user')
 const helper = require('./test_helper')
+const bcrypt = require('bcrypt')
 
 const api = supertest(app)
 
+
+describe('blog related tests', async () => {
 
 beforeEach(async () => {
     await Blog.remove({})
@@ -79,14 +83,53 @@ test('blog without title or url cannot be added', async () => {
 
 
 test('blog can be deleted with valid id', async () => {
-    
-    let delId= await helper.blogsInDB()[0].id
-    await api
+    const blogsAtStart = await helper.blogsInDB()
+    console.log("Are there blogs? ", blogsAtStart)
+    let delId= blogsAtStart[0]._id.toString()
+    console.log("delete id", delId)
+    const c = await api
         .delete(`/api/blogs/${delId}`)
         .expect(204)
 
     const blogs = await helper.blogsInDB()
-    expect(blogs.length).toBe(blogs.initialBlogs.length - 1)
+    console.log("blogs after delete?", blogs)
+    expect(blogs.length).toBe(helper.initialBlogs.length - 1)
+})
+
+})
+
+describe('when one user exists', async () => {
+
+    beforeEach(async () => {
+        await User.remove({})
+        const user = {
+            username: 'fullstack',
+            name: 'Jouni',
+            passwordHash:  await bcrypt.hash('smetana', 10)
+        }
+        await user.save()
+    })
+
+    test('valid user can be added successfully', async () => {
+        expect(1).toBe(0);
+    })
+
+    test('user with nonunique username is not added and proper status is returned', async () => {
+        expect(0).toBe(1)
+    })
+
+    test('user with missing required fields is not added and proper status is returned', () => {
+        expect(0).toBe(1)
+    })
+
+    test('user with too short password cannot be added', async () => {
+        expect(0).toBe(1)
+    })
+
+    test('user with too short username cannot be added', async () => {
+        expect(0).toBe(1)
+    })
+
 })
 
 

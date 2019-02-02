@@ -21,9 +21,10 @@ blogsRouter.post('/', async (request, response, next) => {
 })
 
 blogsRouter.delete('/:id', async (request, response, next) => {
-    const id = request.body.id
+    const id = request.params.id
     try {
-        await Blog.findByIdAndRemove(id)
+        const res =  await Blog.findByIdAndRemove(id)
+        console.log("Result of deletion", res)
         return response.status(204).end()
     } catch( exception ){
         next(exception)
@@ -32,7 +33,7 @@ blogsRouter.delete('/:id', async (request, response, next) => {
 
 
 blogsRouter.put('/:id', async (request, response, next) => {
-    const id = request.body.id
+    const id = request.params.id
     const blog = {
         title: request.body.title,
         author: request.body.author || '',
@@ -40,7 +41,7 @@ blogsRouter.put('/:id', async (request, response, next) => {
         likes: request.body.likes || 0
     }
     try{
-        const updatedBlog =  await Blog.findByIdAndUpdate(request.body.id, blog, { new: true})
+        const updatedBlog =  await Blog.findByIdAndUpdate(id, blog, { new: true})
         response.json(updatedBlog.toJSON())
     } catch(exception){
         next(exception)
