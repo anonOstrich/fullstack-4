@@ -48,7 +48,4 @@ blogsRouter.put('/:id', async (request, response, next) => {
     }
 })
 
-blogsRouter.use(middleware.errorHandler)
-
-
 module.exports = blogsRouter

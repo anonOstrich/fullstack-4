@@ -84,15 +84,12 @@ test('blog without title or url cannot be added', async () => {
 
 test('blog can be deleted with valid id', async () => {
     const blogsAtStart = await helper.blogsInDB()
-    console.log("Are there blogs? ", blogsAtStart)
     let delId= blogsAtStart[0]._id.toString()
-    console.log("delete id", delId)
     const c = await api
         .delete(`/api/blogs/${delId}`)
         .expect(204)
 
     const blogs = await helper.blogsInDB()
-    console.log("blogs after delete?", blogs)
     expect(blogs.length).toBe(helper.initialBlogs.length - 1)
 })
 
@@ -102,32 +99,94 @@ describe('when one user exists', async () => {
 
     beforeEach(async () => {
         await User.remove({})
-        const user = {
+        const user = User({
             username: 'fullstack',
             name: 'Jouni',
             passwordHash:  await bcrypt.hash('smetana', 10)
-        }
+        })
         await user.save()
     })
 
     test('valid user can be added successfully', async () => {
-        expect(1).toBe(0);
+        const usersAtStart = await helper.usersInDB()
+        const newUser = User({
+            username: 'kiva kaveri',
+            password: 'salasana'
+        })
+        await newUser.save()
+        const usersAtEnd = await helper.usersInDB()
+
+        expect(usersAtEnd.length).toBe(usersAtStart.length + 1);
     })
 
     test('user with nonunique username is not added and proper status is returned', async () => {
-        expect(0).toBe(1)
+        const usersAtBeginning = await helper.usersInDB()
+        const newUser = {
+            username: 'fullstack',
+            name: 'Testinimi',
+            password: 'kissa2'
+        }
+        await api.
+            post('/api/users')
+            .send(newUser)
+            .expect(400)
+
+        const usersAtEnd = await helper.usersInDB()
+
+        
+        expect(usersAtEnd.length).toBe(usersAtBeginning.length)
+        expect(usersAtEnd.map(u => u.nae)).not.toContain(newUser.name)
+
     })
 
-    test('user with missing required fields is not added and proper status is returned', () => {
-        expect(0).toBe(1)
+    test('user with missing required fields is not added and proper status is returned', async () => {
+        const usersAtBeginning = await helper.usersInDB()
+        const newUser = {
+            name: 'Jukka',
+            password: 'kissa3'
+        }
+        await api
+        .post('/api/users')
+        .send(newUser)
+        .expect(400)
+
+        const usersAtEnd = await helper.usersInDB();
+        expect(usersAtEnd.length).toBe(usersAtBeginning.length)
     })
 
     test('user with too short password cannot be added', async () => {
-        expect(0).toBe(1)
+        const usersAtBeginning = await helper.usersInDB()
+        const newUser = {
+            username: 'Jukka',
+            password: 'ki'
+        }
+        const result = await api
+        .post('/api/users')
+        .send(newUser)
+        .expect(400)
+
+        expect(result.body.error).toContain('password')
+
+        const usersAtEnd = await helper.usersInDB();
+        expect(usersAtEnd.length).toBe(usersAtBeginning.length)
     })
 
     test('user with too short username cannot be added', async () => {
-        expect(0).toBe(1)
+        const usersAtBeginning = await helper.usersInDB()
+        const newUser = {
+            username: 'ju',
+            password: 'kissa3'
+        }
+        const result = 
+        await api
+        .post('/api/users')
+        .send(newUser)
+        .expect(400)
+
+        expect(result.body.error).toContain('username')
+
+        const usersAtEnd = await helper.usersInDB();
+        expect(usersAtEnd.length).toBe(usersAtBeginning.length)
     })
 
 })
