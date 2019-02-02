@@ -19,11 +19,13 @@
   },
   "homepage": "https://github.com/anonOstrich/fullstack-4#readme",
   "dependencies": {
+    "bcrypt": "^3.0.3",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "http": "0.0.0",
-    "mongoose": "^5.4.7"
+    "mongoose": "^5.4.7",
+    "mongoose-unique-validator": "^2.0.2"
   },
   "devDependencies": {
     "cross-env": "^5.2.0",
